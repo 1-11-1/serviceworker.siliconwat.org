@@ -1,0 +1,27 @@
+<script>
+    navigator.serviceWorker.register("./worker.js").then(registration => {
+        document.body.appendChild(document.createTextNode(" 1) app is now downloading..."))
+    })
+
+    navigator.serviceWorker.onmessage = event => {
+        document.body.appendChild(document.createTextNode(event.data))
+    }
+
+    navigator.serviceWorker.ready.then(registration => {
+        const a = document.createElement("a")
+        a.href = "./app.html"
+        a.textContent = " 4) app is ready! Click to open app."        
+        document.body.appendChild(a)
+
+        const button = document.createElement("button")
+        button.textContent = "Sunflower"
+        document.body.appendChild(button)
+    
+        button.onclick = event => {
+            const sunflower = new Image()
+            sunflower.src = "./sunflower"
+            document.body.appendChild(sunflower)
+        }
+    })
+
+</script>

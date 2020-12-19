@@ -1,0 +1,32 @@
+<script>
+    navigator.serviceWorker.register("./worker.js").then(registration => {
+        console.log(registration, "app is now downloading...")
+    })
+
+    navigator.serviceWorker.ready.then(registration => {
+        console.log(registration, "app is ready!")
+    })
+
+    // one-way communication from main thead to service worker
+    navigator.serviceWorker.controller.postMessage({say: "hello world!"}) // port2 is default
+
+    // two-way method 3
+    navigator.serviceWorker.onmessage = event => console.log(event.data)
+
+    // two-way method 1
+    const channel = new MessageChannel()
+    channel.port1.onmessage = event => console.log(event.data)
+    navigator.serviceWorker.controller.postMessage({say: "Is Panhia cool?"}, [channel.port2])
+    
+    //channel.start()
+    //channel.close()
+
+    // two-way method 2
+    const broadcast = new BroadcastChannel("id123")
+    broadcast.postMessage("Is Panhia awesome?")
+
+    broadcast.onmessage = event => {
+        console.log(event.data)
+    }
+
+</script>

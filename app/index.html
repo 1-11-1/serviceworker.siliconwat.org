@@ -1,0 +1,8 @@
+<script>
+    navigator.serviceWorker.register("./worker.js")
+        .then(worker => document.body.textContent = "App is found in the App Store. Now downloading...")
+
+    navigator.serviceWorker.addEventListener("message", event => {
+        document.body.textContent = event.data.message
+    })
+</script>

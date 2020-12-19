@@ -1,15 +1,41 @@
 <html>
     <head>
         <script>
+            // the tab is open => idling
+            /// what happens if I close the tab but not the browser => stops running, sometimes it you may still be able to to do seomething
+            // what happens if i close the browser => stops running
+
             navigator.serviceWorker.register('./sw.js')
-    .then(reg => console.log('SW registered!', reg))
+    .then(reg => {
+        //console.log('1) app registerd to the store', reg) // a;ways run on reload
+        //reg.update()
+        console.log(reg.installing)
+        console.log(reg.waiting)
+        console.log(reg.active)
+        
+        reg.onupdatefound = () => {
+            const newWorker = reg.installing
+
+            console.log(newWorker.state)
+
+            newWorker.onstatechange = () => {
+
+            }
+        }
+
+    })
     .catch(err => console.log('Boo!', err));
 
             setTimeout(() => {
                 const img = new Image()
-                img.src = "./sunflower.png"
+                img.src = "./raindrop.png"
                 document.body.appendChild(img)
             }, 3000)
+
+            //console.log(navigator.serviceWorker.controller)
+            navigator.serviceWorker.oncontrollerchange = () => {
+
+            }
         </script>
     </head>
 </html>
